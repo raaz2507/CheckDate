@@ -1,179 +1,162 @@
+//package my;
 
-package my;
+import java.util.ArrayList;
 import java.io.IOException;
+
 public class myInput {
 	//Veriable Diclare
 	public static int totalLength=0;
 	
 	//main method
-	//public static void main(String[] args) { test();	}
+	public static void main(String[] args) { 
+		test();
+		System.exit(0);
+	}
 
 	private static void test(){
 		/* All String Tyepe input */
-		System.out.print("Enter line :\t");
-		System.out.println("Its only take world:\n"+getString());
-		System.out.println("Lenth of word:\t"+totalLength);
-		flush();
+		// System.out.print("Enter line :\t");
+		// System.out.println("Its only take world:\n"+getString());
+		// System.out.println("Lenth of word:\t"+totalLength);
+		// flush();
 		
-		System.out.print("Enter line:\t");
-		System.out.println("Entred Line:\n"+getLine());
-		System.out.println("Lenth of word:\t"+totalLength);
+		// System.out.print("Enter line:\t");
+		// System.out.println("Entred Line:\n"+getLine());
+		// System.out.println("Lenth of word:\t"+totalLength);
 
-		System.out.println("Example of python style input class");
-		System.out.println(Input("Enter anyting:\t"));
-		/* All Numeric input*/
+		// System.out.println("Example of python style input class");
+		// System.out.println(Input("Enter anyting:\t"));
+		// // /* All Numeric input*/
 
-		System.out.print("Enter Short Number:\t");
-		System.out.println("Enterd Short Number:\t"+getShort());
+		// System.out.print("Enter Short Number:\t");
+		// System.out.println("Enterd Short Number:\t"+getShort());
+		
+		// flush();
+		// System.out.print("Enter Integer number:\t");
+		// System.out.println("Entred Number:\t"+getInt());
+		// System.out.println("Length of word:\t"+totalLength);
 
-		System.out.print("Enter number:\t");
-		System.out.println("Entred Numver:\t"+getInt());
-		System.out.println("Lenth of word:\t"+totalLength);
+		// System.out.print("Enter Long Number:\t");
+		// System.out.println("Entred Number:\t"+getLong());
+		
+		// System.out.print("Enter floating Number:\t");
+		// System.out.println("Entred Floting Numver:\t"+getFloat());
+		// System.out.println("Lenth of word:\t"+totalLength);
 
-		System.out.print("Enter Long Number:\t");
-		System.out.println("Entred Numver:\t"+getLong());
+		// System.out.println("Entre Double Numver:\t");
+		// System.out.println("Entred Double Number:\t"+getDouble());
 
-		System.out.print("Enter floating Number:\t");
-		System.out.println("Entred Floting Numver:\t"+getFloat());
-		System.out.println("Lenth of word:\t"+totalLength);
-
-		System.out.println("Entre Double Numver:\t");
-		System.out.println("Entred Double Numver:\t"+getDouble());
-
-		System.out.println("Enter Intiger Bunch:");
+		System.out.print("Enter Intiger Bunch:\t");
 		int[] num =getIntBunch();
 		System.out.println(num.length);
 		for (int n : num){
 			System.out.print(n+", ");	
 		}
 		
-		System.out.println("Enter Float Bunch:");
+		System.out.print("\nEnter Float Bunch:\t");
 		float[] fnum =getFloatBunch();
 		System.out.println(fnum.length);
 		for (float n : fnum){
 			System.out.print(n+", ");	
 		}
-
 	}
-	private static char[] rowInput(){
-		char[] row_in = new char[100];
-		int i=0;
+	
+	private static ArrayList<Character> rowInput(){
+		ArrayList <Character> rowIn = new ArrayList<>();
+		char ch;
 		try{
-			do{
-				if (i<row_in.length-1){
-					row_in[i++]=(char)System.in.read();
-				}
-				else{
-					row_in=reallock(row_in);
-					continue;
-				}
-			}while(row_in[i-1]!='\n');
+			while (true){
+				ch=(char)System.in.read();
+				if ( ch == '\r' )
+					ch=(char)System.in.read();
+				if ( ch == '\n' )
+					break;
+				else
+					rowIn.add(ch);
+			}
 		}
 		catch (IOException e){
 			System.out.print(e);
 		}
-		
-		char[] line =new char[i-1];
-		for (i=0; i<line.length; i++){	line[i]=row_in[i];}
-		totalLength = line.length;
-		return line;
-		}
+		return rowIn;
+	}
 
 	public static String getString(){
-		char[] row_in =new char[20];
-		int i=0;
+		ArrayList<Character> rowIn = new ArrayList<>();
+		char ch;
 		try{
-			do{
-				if (i<row_in.length-1){
-					row_in[i++]=(char)System.in.read();
-				} else {
-					row_in=reallock(row_in);
-				}
-			}while(row_in[i-1]!='\n' && row_in[i-1]!='\t' && row_in[i-1]!=' ');//row_in[i-1]!='\0' && 
-		}
-		catch (IOException e){
+			while(true){
+				ch=(char)System.in.read();
+				if (ch=='\r')
+					ch=(char)System.in.read();
+				if ( ch==' ' || ch=='\t' || ch=='\n' )
+					break;
+				else
+					rowIn.add(ch);
+			} 
+		} catch (IOException e){
 			System.out.println(e);
 		}
+		//copy the the row_input to word size arre
+		char[] word =new char[rowIn.size()];
 		
-		/*copy the the row_input to word size arre*/
-		char[] word =new char[i-1];
+		for (int i=0; i<rowIn.size(); i++){	word[i]=rowIn.get(i);}
 		
-		for (i=0; i<word.length; i++){	word[i]=row_in[i];}
-			
-		totalLength = word.length;	//set length of word 
-		return String.valueOf(word);	//return after convert to String
+		totalLength = word.length;	//set length of word 	
+		return String.valueOf(word);//String.valueOf(word);	//return after convert to String
 	}
-
+	
 	public static int [] getIntBunch(){
-		char[] get_string =rowInput();
-		/*Addig a char in last*/
-		char[] row_string =new char[get_string.length+1];
-        System.arraycopy(get_string, 0, row_string, 0, get_string.length);
-		row_string[row_string.length-1]='\0';
-		int[] row_int_arre =new int[10];
-		int char_count=0;
-		char[] num;
-		int k =0;
-		for (int i=0; i<row_string.length; i++){
-			if (row_string[i]>='0' && row_string[i]<='9')
-				char_count++; //cont the total num char in row_string
-			
-			else if (char_count>0)
-			{
-				num=new char[char_count];
-				for (int z=0, j=i-char_count; j<i; j++){
-					num[z++]=row_string[j];
-				}
-				/*if arre length less for taking input then increse the size*/
-				if(k==row_int_arre.length-1)
-					row_int_arre=reallock(row_int_arre);
-				
-				row_int_arre[k++]=Integer.parseInt(String.valueOf(num)); //converction process[char => string => int ]
-				char_count=0; //reset char count
+		ArrayList<Character> rowIn=rowInput();
+		ArrayList<Integer> rowIntArre=new ArrayList<>();
+		rowIn.add('\0');
+		ArrayList<Character> num=new ArrayList<>();
+		
+		for (char ch: rowIn){
+			if (ch>='0' && ch<='9')
+				num.add(ch);
+			else if (num.size()>0){
+				rowIntArre.add(Integer.parseInt(String.valueOf(ArrayList2CharArray(num))));
+				num.clear();
 			}
 		}
-		int[] int_arre =new int[k];
-        System.arraycopy(row_int_arre, 0, int_arre, 0, int_arre.length);
-		
-		return int_arre;
-	}
-	public static float [] getFloatBunch(){
-		char[] get_string =rowInput();
-		/*Addig a char in last*/
-		char[] row_string =new char[get_string.length+1];
-        System.arraycopy(get_string, 0, row_string, 0, get_string.length);
-		row_string[row_string.length-1]='\0';
-		float[] row_int_arre =new float[10];
-		int char_count=0;
-		char[] num;
-		int k =0;
-		for (int i=0; i<row_string.length; i++){
-			if ((row_string[i]>='0' && row_string[i]<='9') || row_string[i]=='.')
-				char_count++; //cont the total num char in row_string
-			
-			else if (char_count>0)
-			{
-				num=new char[char_count];
-				for (int z=0, j=i-char_count; j<i; j++){
-					num[z++]=row_string[j];
-				}
-				/*if arre length less for taking input then increse the size*/
-				if(k==row_int_arre.length-1)
-					row_int_arre=reallock(row_int_arre);
-				
-				row_int_arre[k++]=Float.parseFloat(String.valueOf(num)); //converction process[char => string => int ]
-				char_count=0; //reset char count
-			}
+		int[] intArre=new int[rowIntArre.size()];
+		for(int a=0; a<intArre.length; a++){
+			intArre[a]=rowIntArre.get(a);
 		}
-		float[] int_arre =new float[k];
-        System.arraycopy(row_int_arre, 0, int_arre, 0, int_arre.length);
-		
-		return int_arre;
+		return intArre;
 	}
 
-			
+	public static float [] getFloatBunch(){
+		ArrayList<Character> rowIn = rowInput();
+		rowIn.add('\0');
+		ArrayList<Float> rowFloat=new ArrayList<>();
+		ArrayList<Character> num=new ArrayList<>();
+		for (int i=0; i<rowIn.size(); i++){
+			if (rowIn.get(i)>='0' && rowIn.get(i)<='9' || rowIn.get(i)=='.')
+				num.add(rowIn.get(i));
+			else if (num.size()>0){
+				rowFloat.add(Float.parseFloat(String.valueOf(ArrayList2CharArray(num))));
+				num.clear();
+			}
+		}
+		float[] floatArre = new float[rowFloat.size()];
+		for (int a=0; a<floatArre.length; a++)
+			floatArre[a] = rowFloat.get(a);
+
+		return floatArre;
+	}
+	
 	public static String getLine(){
-		return String.valueOf(rowInput());
+		ArrayList<Character> rowIn=rowInput();
+		
+		char[] line =new char[ rowIn.size() ];
+		//line=rowIn.toArray(line);
+		for (int i = 0 ; i < line.length; i++){	line[i] = rowIn.get(i);}
+		
+		totalLength = line.length;
+		//return String.valueOf(line);
+		return new String(line);
 	}
 	public static short getShort(){
 		//check
@@ -205,26 +188,14 @@ public class myInput {
 	}
 	public static String Input(String arg){
 		System.out.print(arg);
-		return String.valueOf(rowInput());
+		return getLine();//String.valueOf(rowInput());
 	}
-/*Sub method */	
-	private static char[] reallock(char[] old){
-		char[] new_arre =new char[old.length*2];
-		/*Copy the arre*/
-        System.arraycopy(old, 0, new_arre, 0, old.length);
-		return new_arre;
-	}
-	private static int[] reallock(int[] old){
-		int[] new_arre =new int[old.length*2];
-		/*Copy the arre*/
-        System.arraycopy(old, 0, new_arre, 0, old.length);
-		return new_arre;
-	}
-	private static float[] reallock(float[] old){
-		float[] new_arre =new float[old.length*2];
-		/*Copy the arre*/
-        System.arraycopy(old, 0, new_arre, 0, old.length);
-        /* for (int i=0; i<old.length; i++){	new_arre[i]=old[i];}*/
-		return new_arre;
+//=== Add-on Methhod ==========
+	private static char[] ArrayList2CharArray(ArrayList<Character> list){
+		char[] ch=new char[list.size()];
+		for (int i=0; i<ch.length; i++){
+			ch[i]=list.get(i);
+		}
+		return ch;
 	}
 }
